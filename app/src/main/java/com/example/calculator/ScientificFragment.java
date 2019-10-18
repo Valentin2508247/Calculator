@@ -29,23 +29,6 @@ public class ScientificFragment extends Fragment implements View.OnClickListener
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Scientificragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ScientificFragment newInstance(String param1, String param2) {
-        ScientificFragment fragment = new ScientificFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,9 +84,12 @@ public class ScientificFragment extends Fragment implements View.OnClickListener
 
     public void onClick(final View view)
     {
-        FragmentManager fragmentManager = getFragmentManager();
+   /*     FragmentManager fragmentManager = getFragmentManager();
         ScientificFragment fragment = (ScientificFragment) fragmentManager.findFragmentById(R.id.scientificFragment);
         Button button = fragment.getView().findViewById(view.getId());
+*/
+
+        Button button = (Button)view;
 
         if (mListener != null) {
             mListener.onFragmentInteraction(button.getText().toString());
