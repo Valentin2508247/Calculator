@@ -6,4 +6,6 @@
     <string name="sqrt">"\u221a"</string>
     <string name="pi">"\u03c0"</string>
     <string name="switch_text">change mode</string>
+    <string name="requested_scientific">Requested mode: scientific mode</string>
+    <string name="no_requested">No requested mode</string>
 </resources>

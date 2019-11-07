@@ -11,9 +11,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs{
+        release{
+            storeFile file("C:\\Users\\ASUS\\keystore\\.jks")
+            storePassword "2508a2508"
+            keyAlias "key0"
+            keyPassword "25082508"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

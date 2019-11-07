@@ -1,27 +1,30 @@
 package com.example.calculator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class BasicFragment extends Fragment implements View.OnClickListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Timer myTimer;
+    private  MyTimerTask myTimerTask;
+    private Button backspace_button;
+
 
     private OnBasicFragmentInteractionListener mListener;
 
@@ -29,31 +32,12 @@ public class BasicFragment extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BasicFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BasicFragment newInstance(String param1, String param2) {
-        BasicFragment fragment = new BasicFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -68,8 +52,51 @@ public class BasicFragment extends Fragment implements View.OnClickListener{
         button.setOnClickListener(this);
         button = view.findViewById(R.id.pow_button);
         button.setOnClickListener(this);
+        ///////////////
+
         button = view.findViewById(R.id.back_button);
-        button.setOnClickListener(this);
+        backspace_button = button;
+        button.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                    {
+                        //start timer
+
+                        Log.d("timer", "timer start");
+                        if (myTimer != null)
+                            myTimer.cancel();
+
+                        myTimer = new Timer();
+                        MyTimerTask task = new MyTimerTask();
+                        myTimer.schedule(task, 500, 100);
+
+
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:
+                    {
+                        //disable timer
+                        Log.d("timer", "timer end ");
+                        myTimer.cancel();
+                        onClick(backspace_button);
+                        break;
+                    }
+                    default:
+                        break;
+                }
+
+
+
+                return false;
+            }
+        });
+        //button.setOnClickListener(this);
+
+        //////////////
         button = view.findViewById(R.id.del_button);
         button.setOnClickListener(this);
         button = view.findViewById(R.id.seven_button);
@@ -107,13 +134,11 @@ public class BasicFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onClick(final View view)
     {
 
-        FragmentManager fragmentManager = getFragmentManager();
-        BasicFragment fragment = (BasicFragment) fragmentManager.findFragmentById(R.id.basicFragment);
-        Button button = fragment.getView().findViewById(view.getId());
+        Button button = (Button)view;
 
         if (mListener != null) {
             mListener.onBasicFragmentInteraction(button.getText().toString());
@@ -138,19 +163,28 @@ public class BasicFragment extends Fragment implements View.OnClickListener{
     }
 
     public interface OnBasicFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onBasicFragmentInteraction(String str);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    class MyTimerTask extends TimerTask
+    {
+        @Override
+        public void run()
+        {
+            Log.d("timer", "timer method");
+
+            Activity activity =  getActivity();
+
+            activity.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    onClick(backspace_button);
+                }
+            });
+
+        }
+
+    }
 
 }

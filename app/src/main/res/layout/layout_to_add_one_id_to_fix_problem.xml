@@ -9,4 +9,8 @@
         android:layout_weight="2"
         android:id="@+id/scientificFragment"
         android:name="com.example.calculator.ScientificFragment"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame"/>
 </LinearLayout>

@@ -27,20 +27,8 @@
             android:layout_weight="4"
             android:name="com.example.calculator.BasicFragment" />
 
-        <FrameLayout
-            android:id = "@+id/frame"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            />
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.8"
-        android:onClick="switchMode"
-        android:text="@string/switch_text"
-        style="@style/ButtonStyle"/>
+
 
 </LinearLayout>
